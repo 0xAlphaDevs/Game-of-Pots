@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Game of Pots
 
-## Getting Started
+A no loss lottery game with savings pool built on sUSDe rewards APY
 
-First, run the development server:
+### Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+-
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Table of Contents
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. [All Links](#links)
+2. [Technologies](#technologies)
+3. [App Demo](#app-demo-screenshots)
+4. [Instructions to setup and run locally ](#instructions-to-setup)
+5. [Team](#team)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Links
 
-## Learn More
+- [Deployed URL]()
+- [Presentation]()
+- [Demo Video]()
 
-To learn more about Next.js, take a look at the following resources:
+## Technologies
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- sUSDe Rewards APY
+- Ble Testnet
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## App Demo Screenshots
 
-## Deploy on Vercel
+**_Landing Page_**
+![image](/public/landing-page.png)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**_Dashboard_**
+![image](/public/dashboard.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Instructions to Setup
+
+Follow these instructions to set up and run the project:
+
+**Using Github**
+
+- Clone the Git repository: `https://github.com/0xAlphaDevs/Game-of-Pots.git`
+- Install project dependencies: `pnpm install`
+- Copy .env.example
+- Start the development server: `pnpm run dev`
+- Access the web app in your browser at [http://localhost:3000](http://localhost:3000)
+
+## Team
+
+Team [AlphaDevs](https://www.alphadevs.dev) 👇
+
+### Github
+
+[Harsh Tyagi](https://github.com/mr-harshtyagi)
+[Yashasvi Chaudhary](https://github.com/0xyshv)
+
+### Twitter / X
+
+[Harsh Tyagi](https://twitter.com/0xmht)
+[Yashasvi Chaudhary](https://twitter.com/0xyshv)
+
+## Thanks
+
+- Feel free to reach out to the [AlphaDevs team](https://www.alphadevs.dev) with any questions or issues.
+
+- We appreciate your interest in our project and welcome contributions and feature suggestions.
