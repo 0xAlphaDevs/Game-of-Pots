@@ -1,8 +1,14 @@
+"use client"
+
+import { ConnectKitButton } from 'connectkit'
 import React from 'react'
 
 const Play = () => {
   return (
-    <div>PLay Game of Pots</div>
+    <div>
+      <p>Play Game of Pots</p>
+      <ConnectKitButton />
+    </div>
   )
 }
 
