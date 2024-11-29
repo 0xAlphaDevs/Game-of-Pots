@@ -26,7 +26,7 @@ export default function LandingPage() {
             className="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white px-8 py-6 text-lg rounded-xl shadow-lg hover:shadow-cyan-500/20 transition-all duration-200"
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
-            onClick={() => router.push('/play')}
+            onClick={() => router.push('/home')}
           >
             Launch App
             <ArrowRight className={`ml-2 transition-transform duration-200 ${isHovering ? 'translate-x-1' : ''}`} />
