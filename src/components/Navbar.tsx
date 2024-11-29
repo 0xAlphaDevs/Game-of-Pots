@@ -1,8 +1,8 @@
 "use client"
 
+import { ConnectKitButton } from 'connectkit'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ConnectButton } from '@/components/ConnectButton'
 
 export function Navbar() {
   const pathname = usePathname()
@@ -39,7 +39,7 @@ export function Navbar() {
             </div>
           </div>
           <div className="hidden md:block">
-            <ConnectButton />
+            <ConnectKitButton />
           </div>
         </div>
       </div>

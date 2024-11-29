@@ -1,11 +1,11 @@
 "use client"
 
 import { useAccount } from 'wagmi'
-import { ConnectButton } from '@/components/ConnectButton'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Navbar } from '@/components/Navbar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ArrowRight, Coins, Trophy, ArrowLeftRight } from 'lucide-react'
+import { ConnectKitButton } from 'connectkit'
 
 const Home = () => {
   const { isConnected } = useAccount()
@@ -35,7 +35,7 @@ const Home = () => {
             <div className="space-y-4">
               <p className="text-center text-green-700">Connect your wallet to get started with Game of Pots</p>
               <div className="flex justify-center pt-4">
-                <ConnectButton />
+                <ConnectKitButton />
               </div>
             </div>
           </CardContent>
@@ -47,7 +47,7 @@ const Home = () => {
   return (
     <div className="min-h-screen text-green-900">
       <Navbar />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto lg:mx-24 px-4 py-8">
         <h1 className="text-4xl font-bold text-center mb-8 text-green-800">Welcome to Game of Pots</h1>
         <Tabs defaultValue="play" className="w-full">
           <TabsList className="grid w-full grid-cols-2 bg-green-100">
