@@ -47,7 +47,7 @@ const Home = () => {
   return (
     <div className="min-h-screen text-green-900">
       <Navbar />
-      <div className="container mx-auto lg:mx-24 px-4 py-8">
+      <div className="mx-28 px-4 py-8">
         <h1 className="text-4xl font-bold text-center mb-8 text-green-800">Welcome to Game of Pots</h1>
         <Tabs defaultValue="play" className="w-full">
           <TabsList className="grid w-full grid-cols-2 bg-green-100">
