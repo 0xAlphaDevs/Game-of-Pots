@@ -15,7 +15,7 @@ export const ConnectButton = () => {
   // const compactAddressWagmi = compactHash(wagmiAccount.address || '')
 
   return (
-    <div className="column">
+    <div className="column z-10">
       {/* <span className="text-black">useAppKitAccount: {compactAddress}</span>
       <span className="text-black">useAccount (wagmi): {compactAddressWagmi}</span> */}
       <appkit-button />
