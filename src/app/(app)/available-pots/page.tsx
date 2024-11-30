@@ -1,8 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { PotCard } from "@/components/PotCard"
 import { CreatePotModal } from "@/components/CreatePotModal"
+import { useWriteContract, useReadContract } from "wagmi"
+import { GOP_CONTRACT_ADDRESS } from "@/lib/contracts"
+import { GOP_CONTRACT_ABI } from "@/lib/abi"
 
 interface Pot {
   id: string;
@@ -13,7 +16,6 @@ interface Pot {
   maxParticipants: number;
 }
 
-// This would come from your API/contract in a real implementation
 const INITIAL_POTS: Pot[] = [
   {
     id: "001",
@@ -43,19 +45,33 @@ const INITIAL_POTS: Pot[] = [
 
 export default function AvailablePots() {
   const [pots, setPots] = useState<Pot[]>(INITIAL_POTS)
+  const { writeContract } = useWriteContract();
 
-  const handleJoinPot = (potId: string) => {
-    // This would handle the pot joining logic in a real implementation
-    console.log(`Joining pot ${potId}`)
+  const handleDepositToPot = (potId: string) => {
+    writeContract({
+      address: GOP_CONTRACT_ADDRESS as `0x${string}`,
+      abi: GOP_CONTRACT_ABI,
+      functionName: "depositToPot",
+      args: [potId, amount],
+    });
   }
 
-  const handleCreatePot = (potData: Omit<Pot, 'id' | 'participants'>) => {
-    const newPot: Pot = {
-      ...potData,
-      id: `00${pots.length + 1}`,
-      participants: 0,
+  //TO DO: when pot is fetched from the contract, we need to map it to the Pot interface on the basis of pot.status active or earning and differ the UI accordingly
+  const { data: potData, isLoading } = useReadContract({
+    address: GOP_CONTRACT_ADDRESS as `0x${string}`,
+    abi: GOP_CONTRACT_ABI,
+    functionName: "activePots",
+  });
+
+  useEffect(() => {
+    if (potData) {
+      console.log("POT DATA", potData);
+      setPots(potData);
     }
-    setPots([...pots, newPot])
+  }, [potData])
+
+  if (isLoading) {
+    return <div>Loading Available Pots...</div>
   }
 
   return (
@@ -65,7 +81,7 @@ export default function AvailablePots() {
           <h1 className="text-3xl font-bold mb-4 text-gray-800">Available Pots</h1>
           <p className="text-gray-600">Join an active pot to start earning rewards and participate in the game.</p>
         </div>
-        <CreatePotModal onCreatePot={handleCreatePot} />
+        <CreatePotModal />
       </div>
 
 
@@ -79,7 +95,6 @@ export default function AvailablePots() {
             maturityPeriod={pot.maturityPeriod}
             participants={pot.participants}
             maxParticipants={pot.maxParticipants}
-            onJoin={handleJoinPot}
           />
         ))}
       </div>

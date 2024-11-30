@@ -1,6 +1,10 @@
 "use client"
 
 import { PotCard } from "@/components/PotCard"
+import { useWriteContract, useReadContract, useAccount } from "wagmi"
+import { GOP_CONTRACT_ADDRESS } from "@/lib/contracts"
+import { GOP_CONTRACT_ABI } from "@/lib/abi"
+import { useEffect } from "react"
 
 interface Pot {
   id: string;
@@ -39,9 +43,45 @@ const POTS: Pot[] = [
 ]
 
 export default function MyPots() {
-  const handleJoinPot = (potId: string) => {
-    // This would handle the pot joining logic in a real implementation
-    console.log(`Joining pot ${potId}`)
+  const [pots, setPots] = useState<Pot[]>(POTS)
+  const { address } = useAccount();
+  const { writeContract } = useWriteContract();
+
+  const { data: potData, isLoading } = useReadContract({
+    address: GOP_CONTRACT_ADDRESS as `0x${string}`,
+    abi: GOP_CONTRACT_ABI,
+    functionName: "myPots",
+    args: [address],
+  });
+
+  const handleWithdrawFromPot = (potId: string) => {
+    writeContract({
+      address: GOP_CONTRACT_ADDRESS as `0x${string}`,
+      abi: GOP_CONTRACT_ABI,
+      functionName: "withdrawFromPot",
+      args: [potId],
+    });
+  }
+
+  const handleDrawPot = (potId: string) => {
+    writeContract({
+      address: GOP_CONTRACT_ADDRESS as `0x${string}`,
+      abi: GOP_CONTRACT_ABI,
+      functionName: "drawPot",
+      args: [potId],
+    });
+  }
+
+  useEffect(() => {
+    if (potData) {
+      console.log("POT DATA", potData);
+      setPots(potData);
+    }
+
+  }, [potData])
+
+  if (isLoading) {
+    return <div>Loading My Pots...</div>
   }
 
   return (
@@ -52,7 +92,7 @@ export default function MyPots() {
       </div>
 
       <div className="space-y-6 mx-auto">
-        {POTS.map((pot) => (
+        {pots.map((pot) => (
           <PotCard
             key={pot.id}
             id={pot.id}
@@ -61,7 +101,6 @@ export default function MyPots() {
             maturityPeriod={pot.maturityPeriod}
             participants={pot.participants}
             maxParticipants={pot.maxParticipants}
-            onJoin={handleJoinPot}
           />
         ))}
       </div>

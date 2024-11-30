@@ -1,35 +1,58 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import toast from "react-hot-toast"
+import { useWriteContract } from "wagmi"
+import { GOP_CONTRACT_ADDRESS } from "@/lib/contracts"
+import { GOP_CONTRACT_ABI } from "@/lib/abi"
+import { useRouter } from "next/navigation"
 
-interface CreatePotModalProps {
-  onCreatePot: (potData: {
-    amount: number;
-    apy: number;
-    maturityPeriod: string;
-    maxParticipants: number;
-  }) => void;
-}
+export function CreatePotModal() {
+  const router = useRouter();
+  const { writeContract, isSuccess } = useWriteContract();
+  const [formData, setFormData] = useState({
+    amount: 0,
+    apy: 0,
+    maturityPeriod: "",
+    maxParticipants: 0,
+  })
 
-export function CreatePotModal({ onCreatePot }: CreatePotModalProps) {
-  const [amount, setAmount] = useState("")
-  const [apy, setApy] = useState("")
-  const [maturityPeriod, setMaturityPeriod] = useState("")
-  const [maxParticipants, setMaxParticipants] = useState("")
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onCreatePot({
-      amount: Number(amount),
-      apy: Number(apy),
-      maturityPeriod,
-      maxParticipants: Number(maxParticipants),
-    })
+    console.log("formData", formData)
+
+    writeContract({
+      address: GOP_CONTRACT_ADDRESS as `0x${string}`,
+      abi: GOP_CONTRACT_ABI,
+      functionName: "setUserProfile",
+      args: [
+        formData.amount,
+        formData.apy,
+        formData.maturityPeriod,
+        formData.maxParticipants,
+      ],
+    });
+
+    toast.success("Pot created successfully")
   }
+
+  useEffect(() => {
+    if (isSuccess) {
+      router.push("/available-pots")
+    }
+  },
+    [isSuccess, router])
 
   return (
     <Dialog>
@@ -46,8 +69,8 @@ export function CreatePotModal({ onCreatePot }: CreatePotModalProps) {
             <Input
               id="amount"
               type="number"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              value={formData.amount}
+              onChange={handleChange}
               placeholder="Enter pot amount"
               required
             />
@@ -57,8 +80,8 @@ export function CreatePotModal({ onCreatePot }: CreatePotModalProps) {
             <Input
               id="apy"
               type="number"
-              value={apy}
-              onChange={(e) => setApy(e.target.value)}
+              value={formData.apy}
+              onChange={handleChange}
               placeholder="Enter APY"
               required
             />
@@ -68,8 +91,8 @@ export function CreatePotModal({ onCreatePot }: CreatePotModalProps) {
             <Input
               id="maturityPeriod"
               type="text"
-              value={maturityPeriod}
-              onChange={(e) => setMaturityPeriod(e.target.value)}
+              value={formData.maturityPeriod}
+              onChange={handleChange}
               placeholder="e.g., 30 days"
               required
             />
@@ -79,8 +102,8 @@ export function CreatePotModal({ onCreatePot }: CreatePotModalProps) {
             <Input
               id="maxParticipants"
               type="number"
-              value={maxParticipants}
-              onChange={(e) => setMaxParticipants(e.target.value)}
+              value={formData.maxParticipants}
+              onChange={handleChange}
               placeholder="Enter max participants"
               required
             />

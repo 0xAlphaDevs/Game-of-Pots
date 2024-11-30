@@ -9,7 +9,6 @@ interface PotCardProps {
   maturityPeriod: string
   participants: number
   maxParticipants: number
-  onJoin: (id: string) => void
 }
 
 export function PotCard({
@@ -19,7 +18,6 @@ export function PotCard({
   maturityPeriod,
   participants,
   maxParticipants,
-  onJoin
 }: PotCardProps) {
   return (
     <Card className="bg-white border-gray-200 shadow-md hover:shadow-lg transition-shadow">
@@ -62,7 +60,7 @@ export function PotCard({
       </CardContent>
       <CardFooter>
         <Button
-          onClick={() => onJoin(id)}
+          onClick={() => { }}
           className="w-full bg-emerald-500 hover:bg-emerald-600 text-white"
           disabled={participants >= maxParticipants}
         >
