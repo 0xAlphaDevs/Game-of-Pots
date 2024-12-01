@@ -10,10 +10,24 @@ const Home = () => {
   const { isConnected } = useAccount()
 
   const gameSteps = [
-    { icon: <Coins className="w-6 h-6" />, title: "Deposit sUSDe", description: "Stake your sUSDe tokens in the Game of Pots vault." },
-    { icon: <Trophy className="w-6 h-6" />, title: "Enter the Game", description: "Your deposit automatically enters you into the current game round." },
-    { icon: <ArrowRight className="w-6 h-6" />, title: "Wait for Maturity", description: "Let your deposit grow until the vault reaches maturity." },
-    { icon: <Coins className="w-6 h-6" />, title: "Claim Rewards", description: "If you win, claim your rewards along with your initial deposit." },
+    {
+      icon: <Coins className="w-6 h-6" />, title: "Get USDe", description: (
+        <>
+          Get USDe from the{" "}
+          <a
+            href="https://faucet.ethena.fi/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-green-600 underline hover:text-green-800"
+          >
+            faucet
+          </a>.
+        </>
+      ),
+    },
+    { icon: <Trophy className="w-6 h-6" />, title: "Enter the Game", description: "Select a pot and deposit your USDe." },
+    { icon: <ArrowRight className="w-6 h-6" />, title: "Wait for Maturity", description: "Let your deposit grow until the pot reaches maturity." },
+    { icon: <Coins className="w-6 h-6" />, title: "Withdraw Rewards", description: "If you win, withdraw your rewards along with your initial deposit." },
   ]
 
   if (!isConnected) {
