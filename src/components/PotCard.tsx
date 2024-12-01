@@ -1,15 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Clock, Coins, Users } from 'lucide-react'
-
-interface PotCardProps {
-  id: string
-  amount: number
-  apy: number
-  maturityPeriod: string
-  participants: number
-  maxParticipants: number
-}
+import { PotCardProps } from "@/lib/types"
 
 export function PotCard({
   id,
@@ -18,6 +10,7 @@ export function PotCard({
   maturityPeriod,
   participants,
   maxParticipants,
+  status
 }: PotCardProps) {
   return (
     <Card className="bg-white border-gray-200 shadow-md hover:shadow-lg transition-shadow">

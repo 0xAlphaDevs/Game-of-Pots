@@ -6,45 +6,11 @@ import { CreatePotModal } from "@/components/CreatePotModal"
 import { useWriteContract, useReadContract } from "wagmi"
 import { GOP_CONTRACT_ADDRESS } from "@/lib/contracts"
 import { GOP_CONTRACT_ABI } from "@/lib/abi"
-
-interface Pot {
-  id: string;
-  amount: number;
-  apy: number;
-  maturityPeriod: string;
-  participants: number;
-  maxParticipants: number;
-}
-
-const INITIAL_POTS: Pot[] = [
-  {
-    id: "001",
-    amount: 5000,
-    apy: 12.5,
-    maturityPeriod: "30 days",
-    participants: 3,
-    maxParticipants: 10
-  },
-  {
-    id: "002",
-    amount: 10000,
-    apy: 12.5,
-    maturityPeriod: "60 days",
-    participants: 5,
-    maxParticipants: 10
-  },
-  {
-    id: "003",
-    amount: 15000,
-    apy: 12.5,
-    maturityPeriod: "90 days",
-    participants: 10,
-    maxParticipants: 10
-  }
-]
+import { INITIAL_POTS } from "@/lib/pots"
+import { PotCardProps } from "@/lib/types"
 
 export default function AvailablePots() {
-  const [pots, setPots] = useState<Pot[]>(INITIAL_POTS)
+  const [pots, setPots] = useState<PotCardProps[]>(INITIAL_POTS)
   const { writeContract } = useWriteContract();
 
   const handleDepositToPot = (potId: string) => {
@@ -56,7 +22,6 @@ export default function AvailablePots() {
     });
   }
 
-  //TO DO: when pot is fetched from the contract, we need to map it to the Pot interface on the basis of pot.status active or earning and differ the UI accordingly
   const { data: potData, isLoading } = useReadContract({
     address: GOP_CONTRACT_ADDRESS as `0x${string}`,
     abi: GOP_CONTRACT_ABI,
@@ -95,6 +60,7 @@ export default function AvailablePots() {
             maturityPeriod={pot.maturityPeriod}
             participants={pot.participants}
             maxParticipants={pot.maxParticipants}
+            status={pot.status}
           />
         ))}
       </div>
