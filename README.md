@@ -4,21 +4,28 @@ A no loss lottery game with savings pool built on sUSDe rewards APY
 
 ### Features
 
--
+- Deposits are collateralized with sUSDe, leveraging Ethena’s mechanism to ensure price stability through crypto collateral and perpetual short trades.
+- Smart contracts manage yield generation and automate fair reward distribution without compromising deposit security.
+- Integrated with Ethena's ecosystem for reliable APY rewards and seamless cross-chain functionality.
 
 ## Table of Contents
 
 1. [All Links](#links)
-2. [Technologies](#technologies)
-3. [App Demo](#app-demo-screenshots)
-4. [Instructions to setup and run locally ](#instructions-to-setup)
-5. [Team](#team)
+2. [Deployed Contracts](#deployed-contracts)
+3. [Technologies](#technologies)
+4. [App Demo](#app-demo-screenshots)
+5. [Instructions to setup and run locally ](#instructions-to-setup)
+6. [Team](#team)
 
 ## Links
 
 - [Deployed URL]()
-- [Presentation]()
+- [Presentation](https://www.canva.com/design/DAGYDK1JPWs/q1bBo9JYOS_O7STz3a3Vog/view)
 - [Demo Video]()
+
+## Deployed Contracts
+
+- Game of Pots Contract - []()
 
 ## Technologies
 
@@ -41,7 +48,6 @@ Follow these instructions to set up and run the project:
 
 - Clone the Git repository: `https://github.com/0xAlphaDevs/Game-of-Pots.git`
 - Install project dependencies: `pnpm install`
-- Copy .env.example
 - Start the development server: `pnpm run dev`
 - Access the web app in your browser at [http://localhost:3000](http://localhost:3000)
 
