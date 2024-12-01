@@ -1,6 +1,6 @@
 import { PotCardProps } from "./types";
 
-export const INITIAL_POTS: PotCardProps[] = [
+export const POTS: PotCardProps[] = [
   {
     id: "001",
     amount: 5000,
