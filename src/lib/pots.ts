@@ -15,7 +15,7 @@ export const POTS: PotCardProps[] = [
     amount: 10000,
     apy: 12.5,
     maturityPeriod: "60 days",
-    participants: 5,
+    participants: 10,
     maxParticipants: 10,
     status: "earning",
   },

@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation"
 
 export function CreatePotModal() {
   const router = useRouter();
-  const { writeContract, isSuccess } = useWriteContract();
+  const { writeContract, isSuccess, isPending, error } = useWriteContract();
   const [formData, setFormData] = useState({
     amount: 0,
     apy: 0,
@@ -53,6 +53,18 @@ export function CreatePotModal() {
     }
   },
     [isSuccess, router])
+
+  useEffect(() => {
+    if (isPending) {
+      toast.loading("Creating pot...")
+    }
+  }, [isPending]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error("Error creating pot")
+    }
+  }, [error]);
 
   return (
     <Dialog>
