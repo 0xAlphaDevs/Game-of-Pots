@@ -16,9 +16,8 @@ export function CreatePotModal() {
   const { writeContract, isSuccess, isPending, error } = useWriteContract();
   const [formData, setFormData] = useState({
     amount: 0,
-    apy: 0,
-    maturityPeriod: "",
-    maxParticipants: 0,
+    totalShares: 0,
+    maturityPeriodInDays: 0,
   })
 
   const handleChange = (
@@ -32,37 +31,40 @@ export function CreatePotModal() {
     e.preventDefault()
     console.log("formData", formData)
 
+    const currentTimestamp = Math.floor(Date.now() / 1000); // Current time in seconds
+    const maturityTimestamp = currentTimestamp + formData.maturityPeriodInDays * 24 * 60 * 60; // Add days in seconds
+
+    console.log("maturityTimestamp", maturityTimestamp)
+
     writeContract({
       address: GOP_CONTRACT_ADDRESS as `0x${string}`,
       abi: GOP_CONTRACT_ABI,
-      functionName: "setUserProfile",
+      functionName: "createPot",
       args: [
         formData.amount,
-        formData.apy,
-        formData.maturityPeriod,
-        formData.maxParticipants,
+        formData.totalShares,
+        maturityTimestamp,
+        formData.maturityPeriodInDays,
       ],
     });
-
-    toast.success("Pot created successfully")
   }
 
   useEffect(() => {
     if (isSuccess) {
+      toast.success("Pot created successfully")
       router.push("/available-pots")
     }
-  },
-    [isSuccess, router])
+  }, [isSuccess, router])
 
-  useEffect(() => {
-    if (isPending) {
-      toast.loading("Creating pot...")
-    }
-  }, [isPending]);
+  // useEffect(() => {
+  //   if (isPending) {
+  //     toast.loading("Creating pot...")
+  //   }
+  // }, [isPending]);
 
   useEffect(() => {
     if (error) {
-      toast.error("Error creating pot")
+      toast.error(`Error creating pot: ${error.message || "Unknown error occurred"}`);
     }
   }, [error]);
 
@@ -76,52 +78,49 @@ export function CreatePotModal() {
           <DialogTitle>Create New Pot</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Label htmlFor="amount">Amount (USD)</Label>
-            <Input
-              id="amount"
-              type="number"
-              value={formData.amount}
-              onChange={handleChange}
-              placeholder="Enter pot amount"
-              required
-            />
-          </div>
-          <div>
-            <Label htmlFor="apy">APY (%)</Label>
-            <Input
-              id="apy"
-              type="number"
-              value={formData.apy}
-              onChange={handleChange}
-              placeholder="Enter APY"
-              required
-            />
-          </div>
-          <div>
-            <Label htmlFor="maturityPeriod">Maturity Period</Label>
-            <Input
-              id="maturityPeriod"
-              type="text"
-              value={formData.maturityPeriod}
-              onChange={handleChange}
-              placeholder="e.g., 30 days"
-              required
-            />
-          </div>
-          <div>
-            <Label htmlFor="maxParticipants">Max Participants</Label>
-            <Input
-              id="maxParticipants"
-              type="number"
-              value={formData.maxParticipants}
-              onChange={handleChange}
-              placeholder="Enter max participants"
-              required
-            />
-          </div>
-          <Button type="submit" className="w-full bg-emerald-500 hover:bg-emerald-600 text-white">
-            Create Pot
+          {isPending ? (
+            <p>Creating pot...</p>
+          ) : (
+            <>
+              <div>
+                <Label htmlFor="amount">Amount (USD)</Label>
+                <Input
+                  id="amount"
+                  type="number"
+                  value={formData.amount}
+                  onChange={handleChange}
+                  placeholder="Enter pot amount"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="totalShares">Total Shares</Label>
+                <Input
+                  id="totalShares"
+                  name="totalShares"
+                  type="number"
+                  value={formData.totalShares}
+                  onChange={handleChange}
+                  placeholder="Enter total shares"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="maturityPeriodInDays">Maturity Period (days)</Label>
+                <Input
+                  id="maturityPeriodInDays"
+                  name="maturityPeriodInDays"
+                  type="number"
+                  value={formData.maturityPeriodInDays}
+                  onChange={handleChange}
+                  placeholder="Enter maturity period in days"
+                  required
+                />
+              </div>
+            </>
+          )}
+          <Button type="submit" className="w-full bg-emerald-500 hover:bg-emerald-600 text-white" disabled={isPending}>
+            {isPending ? "Creating Pot..." : "Create Pot"}
           </Button>
         </form>
       </DialogContent>

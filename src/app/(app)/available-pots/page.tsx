@@ -61,7 +61,7 @@ export default function AvailablePots() {
           </p>
         </div>
         <CreatePotModal />
-        {/* <button onClick={handleSetPots}></button> */}
+        <button onClick={handleSetPots}></button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
