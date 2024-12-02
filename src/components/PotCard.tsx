@@ -7,12 +7,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
+  BadgeDollarSign,
   CircleDollarSignIcon,
   Clock,
   Coins,
   DollarSign,
   Hourglass,
-  Percent,
   PiggyBank,
   Trophy,
   Users,
@@ -23,7 +23,7 @@ import { GOP_CONTRACT_ABI } from "@/lib/abi";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { erc20Abi, formatEther } from "viem";
+import { erc20Abi, formatEther, parseUnits } from "viem";
 
 export function PotCard({
   id,
@@ -31,9 +31,11 @@ export function PotCard({
   apy,
   usdeDeposits,
   maturityPeriod,
+  maturityTimestamp,
   participants,
   maxParticipants,
   status,
+  winner,
 }: PotCardProps) {
   const { address: owner } = useAccount();
   const [usdeAllowance, setUsdeAllowance] = useState<number>(0);
@@ -74,11 +76,16 @@ export function PotCard({
   };
 
   const handleDepositToPot = (potId: string, amount: number) => {
+    console.log(
+      "Depositing to Pot",
+      BigInt(potId),
+      parseUnits(amount.toString(), 18)
+    );
     handleDeposit({
       address: GOP_CONTRACT_ADDRESS as `0x${string}`,
       abi: GOP_CONTRACT_ABI,
       functionName: "depositToPot",
-      args: [potId, amount * 10 ** 18],
+      args: [BigInt(potId), parseUnits(amount.toString(), 18)],
     });
   };
 
@@ -87,7 +94,7 @@ export function PotCard({
       address: USDe_CONTRACT_ADDRESS as `0x${string}`,
       abi: erc20Abi,
       functionName: "approve",
-      args: [GOP_CONTRACT_ADDRESS, BigInt(1000000 * 10 ** 18)],
+      args: [GOP_CONTRACT_ADDRESS, parseUnits("1000000", 18)],
     });
   };
 
@@ -117,7 +124,7 @@ export function PotCard({
 
   useEffect(() => {
     if (approveSuccess) {
-      toast.success("Approved USDe Spend Successfully");
+      toast.success("Approved USDe Spend");
     }
   }, [approveSuccess]);
 
@@ -134,6 +141,13 @@ export function PotCard({
       setUsdeAllowance(usdeAllowance);
     }
   }, [allowance]);
+
+  const rewards = (amount * apy) / (100 * maxParticipants);
+  const daysRemaining =
+    (maturityTimestamp - Math.floor(Date.now() / 1000)) / 86400;
+
+  const estimatedEarnings =
+    rewards * ((maturityPeriod - daysRemaining) / maturityPeriod);
 
   return (
     <Card className="bg-white border-gray-200 shadow-md transition-shadow">
@@ -160,7 +174,7 @@ export function PotCard({
             <div className="text-md text-end">
               APY :{" "}
               <span className="font-semibold text-emerald-600">
-                {((apy * 365) / maturityPeriod).toFixed(2)} %
+                {(apy * maxParticipants).toFixed(2)} %
               </span>
             </div>
           </div>
@@ -195,7 +209,7 @@ export function PotCard({
             <>
               <Trophy className="w-4 h-4 text-yellow-600" />
               <span className="text-yellow-600 font-semibold">
-                Winner - 0x1234567890abcdef1234567890abcdef12345678
+                Winner - {winner}
               </span>
             </>
           )}
@@ -212,10 +226,9 @@ export function PotCard({
           )}
           {status === "earning" && (
             <>
-              <Percent className="w-4 h-4 " />
+              <BadgeDollarSign className="w-4 h-4 " />
               <span className="">
-                Estimated Pot Earnings :{" "}
-                {(amount * apy) / (100 * maxParticipants)} USDe
+                USDe Rewards earned : {estimatedEarnings.toFixed(6)} USDe
               </span>
             </>
           )}
@@ -264,9 +277,10 @@ export function PotCard({
             }
           }}
         >
-          {status === "active" && usdeAllowance > amount / maxParticipants
-            ? "Join Pot"
-            : "Approve USDe Spend"}
+          {status === "active" &&
+            (usdeAllowance > amount / maxParticipants
+              ? "Join Pot"
+              : "Approve USDe Spend")}
           {status === "earning" && "Pot Staked and Earning Rewards"}
           {status === "drawnWinner" && "Withdraw"}
         </Button>

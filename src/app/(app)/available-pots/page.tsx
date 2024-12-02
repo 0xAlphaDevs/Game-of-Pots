@@ -13,7 +13,11 @@ import toast from "react-hot-toast";
 
 export default function AvailablePots() {
   const [pots, setPots] = useState<PotCardProps[]>([]);
-  const { data: availablePotData, isLoading: availablePotLoading, isError: availablePotError } = useReadContract({
+  const {
+    data: availablePotData,
+    isLoading: availablePotLoading,
+    isError: availablePotError,
+  } = useReadContract({
     address: GOP_CONTRACT_ADDRESS as `0x${string}`,
     abi: GOP_CONTRACT_ABI,
     functionName: "activePots",
@@ -32,14 +36,15 @@ export default function AvailablePots() {
           apy: 29,
           usdeDeposits: Number(formatEther(pot.totalUSDeDeposits)),
           maturityPeriod: Number(pot.maturityPeriodInDays),
+          maturityTimestamp: Number(pot.maturityTimestamp),
           participants: pot.participants.length,
           maxParticipants: Number(pot.TOTAL_SHARES),
           status:
             pot.status == 0
               ? "active"
               : pot.status == 1
-                ? "earning"
-                : "drawnWinner",
+              ? "earning"
+              : "drawnWinner",
         }))
       );
   }, [availablePotData]);
@@ -90,7 +95,9 @@ export default function AvailablePots() {
 
       {pots.length === 0 ? (
         <div className="flex justify-center items-center pt-28">
-          <p className="text-xl text-gray-600 font-semibold">❌ No pots have been created yet.</p>
+          <p className="text-xl text-gray-600 font-semibold">
+            ❌ No pots have been created yet.
+          </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -102,9 +109,11 @@ export default function AvailablePots() {
               apy={pot.apy}
               usdeDeposits={pot.usdeDeposits}
               maturityPeriod={pot.maturityPeriod}
+              maturityTimestamp={pot.maturityTimestamp}
               participants={pot.participants}
               maxParticipants={pot.maxParticipants}
               status={pot.status}
+              winner={pot.winner}
             />
           ))}
         </div>

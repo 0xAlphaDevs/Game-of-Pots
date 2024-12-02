@@ -2,7 +2,13 @@
 
 import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import toast from "react-hot-toast";
@@ -12,6 +18,7 @@ import { GOP_CONTRACT_ABI } from "@/lib/abi";
 import { useRouter } from "next/navigation";
 import { differenceInDays } from "date-fns";
 import Spinner from "./Spinner";
+import { formatUnits, parseUnits } from "viem";
 
 export function CreatePotModal() {
   const router = useRouter();
@@ -50,14 +57,15 @@ export function CreatePotModal() {
     const currentTimestamp = Math.floor(Date.now() / 1000); // Current time in seconds
     const selectedDate = new Date(maturityDate);
     const maturityPeriodInDays = differenceInDays(selectedDate, new Date());
-    const maturityTimestamp = currentTimestamp + maturityPeriodInDays * 24 * 60 * 60; // Convert days to seconds
+    const maturityTimestamp =
+      currentTimestamp + maturityPeriodInDays * 24 * 60 * 60; // Convert days to seconds
 
     writeContract({
       address: GOP_CONTRACT_ADDRESS as `0x${string}`,
       abi: GOP_CONTRACT_ABI,
       functionName: "createPot",
       args: [
-        Number(amount),
+        Number(parseUnits(amount, 18)),
         Number(totalShares),
         maturityTimestamp,
         maturityPeriodInDays,
@@ -79,7 +87,6 @@ export function CreatePotModal() {
       toast.error("Error creating pot");
     }
   }, [error]);
-
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -103,7 +110,7 @@ export function CreatePotModal() {
           ) : (
             <>
               <div>
-                <Label htmlFor="amount">Amount (USD)</Label>
+                <Label htmlFor="amount">Amount (USDe)</Label>
                 <Input
                   id="amount"
                   name="amount"

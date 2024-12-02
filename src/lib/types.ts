@@ -4,9 +4,11 @@ export interface PotCardProps {
   apy: number;
   usdeDeposits: number;
   maturityPeriod: number;
+  maturityTimestamp: number;
   participants: number;
   maxParticipants: number;
   status: string;
+  winner?: string;
 }
 
 export interface Pot {
@@ -30,6 +32,7 @@ export interface MyPotProps {
   apy: number;
   usdeDeposits: number;
   maturityPeriod: number;
+  maturityTimestamp: number;
   participants: number;
   maxParticipants: number;
   status: string;

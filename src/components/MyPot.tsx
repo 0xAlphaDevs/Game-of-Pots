@@ -7,18 +7,18 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
+  BadgeDollarSign,
   CircleDollarSignIcon,
   Clock,
   Coins,
   DollarSign,
   Hourglass,
-  Percent,
   PiggyBank,
   Trophy,
   Users,
 } from "lucide-react";
-import { MyPotProps, PotCardProps } from "@/lib/types";
-import { GOP_CONTRACT_ADDRESS, USDe_CONTRACT_ADDRESS } from "@/lib/contracts";
+import { MyPotProps } from "@/lib/types";
+import { GOP_CONTRACT_ADDRESS } from "@/lib/contracts";
 import { GOP_CONTRACT_ABI } from "@/lib/abi";
 import { useWriteContract } from "wagmi";
 import { useEffect } from "react";
@@ -30,6 +30,7 @@ export function MyPot({
   apy,
   usdeDeposits,
   maturityPeriod,
+  maturityTimestamp,
   participants,
   maxParticipants,
   status,
@@ -65,6 +66,13 @@ export function MyPot({
     }
   }, [withdrawError]);
 
+  const rewards = (amount * apy) / (100 * maxParticipants);
+  const daysRemaining =
+    (maturityTimestamp - Math.floor(Date.now() / 1000)) / 86400;
+
+  const estimatedEarnings =
+    rewards * ((maturityPeriod - daysRemaining) / maturityPeriod);
+
   return (
     <Card className="bg-white border-gray-200 shadow-md transition-shadow">
       <CardHeader>
@@ -84,7 +92,7 @@ export function MyPot({
             <div className=" text-xl font-medium">
               Rewards :{" "}
               <span className="text-emerald-600 font-semibold">
-                {(amount * apy) / (100 * maxParticipants)} USDe
+                {rewards} USDe
               </span>
             </div>
             <div className="text-md text-end">
@@ -142,10 +150,9 @@ export function MyPot({
           )}
           {status === "earning" && (
             <>
-              <Percent className="w-4 h-4 " />
+              <BadgeDollarSign className="w-4 h-4 " />
               <span className="">
-                Estimated Pot Earnings :{" "}
-                {(amount * apy) / (100 * maxParticipants)} USDe
+                USDe Rewards earned : {estimatedEarnings.toFixed(6)} USDe
               </span>
             </>
           )}

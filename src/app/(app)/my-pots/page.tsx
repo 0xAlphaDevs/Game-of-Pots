@@ -14,7 +14,11 @@ export default function MyPots() {
   const { address } = useAccount();
   const [pots, setPots] = useState<PotCardProps[]>([]);
 
-  const { data: myPotData, isLoading: myPotLoading, isError: myPotError } = useReadContract({
+  const {
+    data: myPotData,
+    isLoading: myPotLoading,
+    isError: myPotError,
+  } = useReadContract({
     address: GOP_CONTRACT_ADDRESS as `0x${string}`,
     abi: GOP_CONTRACT_ABI,
     functionName: "myPots",
@@ -34,6 +38,7 @@ export default function MyPots() {
           apy: 29,
           usdeDeposits: Number(formatEther(pot.totalUSDeDeposits)),
           maturityPeriod: Number(pot.maturityPeriodInDays),
+          maturityTimestamp: Number(pot.maturityTimestamp),
           participants: pot.participants.length,
           maxParticipants: Number(pot.TOTAL_SHARES),
           winner: pot.winner,
@@ -41,8 +46,8 @@ export default function MyPots() {
             pot.status == 0
               ? "active"
               : pot.status == 1
-                ? "earning"
-                : "drawnWinner",
+              ? "earning"
+              : "drawnWinner",
         }))
       );
   }, [myPotData]);
@@ -81,7 +86,9 @@ export default function MyPots() {
 
       {pots.length === 0 ? (
         <div className="flex justify-center items-center pt-24">
-          <p className="text-xl text-gray-500 font-semibold">❌ No pots have been joined yet.</p>
+          <p className="text-xl text-gray-500 font-semibold">
+            ❌ No pots have been joined yet.
+          </p>
         </div>
       ) : (
         <div className="space-y-6 mx-auto">
@@ -93,6 +100,7 @@ export default function MyPots() {
               apy={pot.apy}
               usdeDeposits={pot.usdeDeposits}
               maturityPeriod={pot.maturityPeriod}
+              maturityTimestamp={pot.maturityTimestamp}
               participants={pot.participants}
               maxParticipants={pot.maxParticipants}
               status={pot.status}
