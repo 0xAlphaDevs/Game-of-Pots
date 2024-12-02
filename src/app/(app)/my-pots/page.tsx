@@ -1,22 +1,27 @@
-"use client"
+"use client";
 
-import { PotCard } from "@/components/PotCard"
-import { POTS } from "@/lib/pots"
-import { PotCardProps } from "@/lib/types"
+import { PotCard } from "@/components/PotCard";
+import { POTS } from "@/lib/pots";
+import { PotCardProps } from "@/lib/types";
 // import { useWriteContract, useReadContract, useAccount } from "wagmi"
 // import { GOP_CONTRACT_ADDRESS } from "@/lib/contracts"
 // import { GOP_CONTRACT_ABI } from "@/lib/abi"
-import { useState } from "react"
-
+import { useEffect, useState } from "react";
 
 export default function MyPots() {
-  const [pots, setPots] = useState<PotCardProps[]>(POTS)
+  const [pots, setPots] = useState<PotCardProps[]>([]);
   // const { address } = useAccount();
   // const { writeContract } = useWriteContract();
 
-  const handleSetPots = () => {
-    setPots(pots);
-  }
+  // const handleSetPots = () => {
+  //   setPots(pots);
+  // };
+
+  useEffect(() => {
+    // filter only non-active pots
+    const activePots = POTS.filter((pot) => pot.status !== "active");
+    setPots(activePots);
+  }, []);
 
   // const { data: potData, isLoading } = useReadContract({
   //   address: GOP_CONTRACT_ADDRESS as `0x${string}`,
@@ -65,8 +70,10 @@ export default function MyPots() {
     <div className="px-4 md:px-20 py-10">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-4 text-gray-800">My Pots</h1>
-        <p className="text-gray-600">View your active pots and their current status.</p>
-        <button onClick={handleSetPots}></button>
+        <p className="text-gray-600">
+          View your active pots and their current status.
+        </p>
+        {/* <button onClick={handleSetPots}>abs</button> */}
       </div>
 
       <div className="space-y-6 mx-auto">
@@ -84,6 +91,5 @@ export default function MyPots() {
         ))}
       </div>
     </div>
-  )
+  );
 }
-
