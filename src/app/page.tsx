@@ -48,14 +48,14 @@ export default function LandingPage() {
           </Card>
           <Card className="bg-zinc-800/50 border-zinc-700">
             <CardContent className="p-6 text-center">
-              <div className="text-3xl font-bold text-emerald-400">$250K</div>
+              <div className="text-3xl font-bold text-emerald-400">$101</div>
               <div className="text-zinc-400 mt-2">Total Value Locked</div>
             </CardContent>
           </Card>
           <Card className="bg-zinc-800/50 border-zinc-700">
             <CardContent className="p-6 text-center">
-              <div className="text-3xl font-bold text-emerald-400">$1.2k</div>
-              <div className="text-zinc-400 mt-2">Rewards Distributed</div>
+              <div className="text-3xl font-bold text-emerald-400">$0.29</div>
+              <div className="text-zinc-400 mt-2">Rewards Earned</div>
             </CardContent>
           </Card>
         </div>
@@ -76,9 +76,9 @@ export default function LandingPage() {
             <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto mb-4">
               <Coins className="text-emerald-400" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Earn While You Play</h3>
+            <h3 className="text-xl font-semibold mb-2">sUSDe Rewards</h3>
             <p className="text-zinc-400">
-              Earn sUSDe rewards even if you don&apos;t win the lottery
+              Earn sUSDe rewards from staking your USDe in the vaults
             </p>
           </div>
           <div className="text-center p-6">
@@ -87,8 +87,7 @@ export default function LandingPage() {
             </div>
             <h3 className="text-xl font-semibold mb-2">Maturity Prizes</h3>
             <p className="text-zinc-400">
-              Substantial prize pools from accumulated yields, claimable at
-              vault maturity
+              Pot winner gets all USDe yield from that pot on maturity
             </p>
           </div>
         </div>

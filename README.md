@@ -1,12 +1,12 @@
 ## Game of Pots
 
-A no loss lottery game with savings pool built on sUSDe rewards APY
+A no loss lottery game with savings pool built on Ethena's sUSDe rewards APY
 
 ### Features
 
-- Deposits are collateralized with sUSDe, leveraging Ethena’s mechanism to ensure price stability through crypto collateral and perpetual short trades.
-- Smart contracts manage yield generation and automate fair reward distribution without compromising deposit security.
-- Integrated with Ethena's ecosystem for reliable APY rewards and seamless cross-chain functionality.
+- No loss Lottery mechanism : Your principal is always safe and can be withdrawn at vault maturity
+- sUSDe Rewards : All txns in the dapp are done with USDe stablecoin which is staked to earn sUSDe rewards
+- Randomized Fairness with Conduit VRF : Pot winners are selected using Conduit Oracle Verifiable Random Functions to ensure fairness and transparency
 
 ## Table of Contents
 
@@ -19,17 +19,17 @@ A no loss lottery game with savings pool built on sUSDe rewards APY
 
 ## Links
 
-- [Deployed URL]()
+- [Deployed URL](https://game-of-pots.vercel.app/)
 - [Presentation](https://www.canva.com/design/DAGYDK1JPWs/q1bBo9JYOS_O7STz3a3Vog/view)
 - [Demo Video]()
 
 ## Deployed Contracts
 
-- Game of Pots Contract - []()
+- Game of Pots Contract - [0xA07b1c5A5794E32E7bf80948b4d33d5d41D28e36](https://testnet.explorer.ethena.fi/address/0xA07b1c5A5794E32E7bf80948b4d33d5d41D28e36?tab=contract)
 
 ## Technologies
 
-- sUSDe Rewards APY
+- sUSDe Rewards
 - Ble Testnet
 
 ## App Demo Screenshots
