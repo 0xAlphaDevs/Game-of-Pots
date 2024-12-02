@@ -23,3 +23,15 @@ export interface Pot {
   vrfRoundId: number;
   winner: string;
 }
+
+export interface MyPotProps {
+  id: string;
+  amount: number;
+  apy: number;
+  usdeDeposits: number;
+  maturityPeriod: number;
+  participants: number;
+  maxParticipants: number;
+  status: string;
+  winner?: string;
+}

@@ -1,70 +1,53 @@
 "use client";
 
-import { PotCard } from "@/components/PotCard";
-import { POTS } from "@/lib/pots";
-import { PotCardProps } from "@/lib/types";
-// import { useWriteContract, useReadContract, useAccount } from "wagmi"
-// import { GOP_CONTRACT_ADDRESS } from "@/lib/contracts"
-// import { GOP_CONTRACT_ABI } from "@/lib/abi"
+import { Pot, PotCardProps } from "@/lib/types";
+import { useReadContract, useAccount } from "wagmi";
+import { GOP_CONTRACT_ADDRESS } from "@/lib/contracts";
+import { GOP_CONTRACT_ABI } from "@/lib/abi";
 import { useEffect, useState } from "react";
+import { formatEther } from "viem";
+import { MyPot } from "@/components/MyPot";
 
 export default function MyPots() {
+  const { address } = useAccount();
   const [pots, setPots] = useState<PotCardProps[]>([]);
-  // const { address } = useAccount();
-  // const { writeContract } = useWriteContract();
 
-  // const handleSetPots = () => {
-  //   setPots(pots);
-  // };
+  const { data: potData, isLoading } = useReadContract({
+    address: GOP_CONTRACT_ADDRESS as `0x${string}`,
+    abi: GOP_CONTRACT_ABI,
+    functionName: "myPots",
+    args: [address],
+  });
 
   useEffect(() => {
-    // filter only non-active pots
-    const activePots = POTS.filter((pot) => pot.status !== "active");
-    setPots(activePots);
-  }, []);
+    console.log("POT DATA", potData);
 
-  // const { data: potData, isLoading } = useReadContract({
-  //   address: GOP_CONTRACT_ADDRESS as `0x${string}`,
-  //   abi: GOP_CONTRACT_ABI,
-  //   functionName: "myPots",
-  //   args: [address],
-  // });
+    const data: [] = potData as [];
 
-  // const handleWithdrawFromPot = (potId: string) => {
-  //   writeContract({
-  //     address: GOP_CONTRACT_ADDRESS as `0x${string}`,
-  //     abi: GOP_CONTRACT_ABI,
-  //     functionName: "withdrawFromPot",
-  //     args: [potId],
-  //   });
-  // }
+    if (data)
+      setPots(
+        data.map((pot: Pot) => ({
+          id: pot.potId.toString(),
+          amount: Number(formatEther(pot.POT_SIZE_IN_USDE)),
+          apy: 29,
+          usdeDeposits: Number(formatEther(pot.totalUSDeDeposits)),
+          maturityPeriod: Number(pot.maturityPeriodInDays),
+          participants: pot.participants.length,
+          maxParticipants: Number(pot.TOTAL_SHARES),
+          winner: pot.winner,
+          status:
+            pot.status == 0
+              ? "active"
+              : pot.status == 1
+              ? "earning"
+              : "drawnWinner",
+        }))
+      );
+  }, [potData]);
 
-  // const handleDrawPot = (potId: string) => {
-  //   writeContract({
-  //     address: GOP_CONTRACT_ADDRESS as `0x${string}`,
-  //     abi: GOP_CONTRACT_ABI,
-  //     functionName: "drawPot",
-  //     args: [potId],
-  //   });
-  // }
-
-  // useEffect(() => {
-  //   if (potData) {
-  //     console.log("POT DATA", potData);
-  //     setPots(potData);
-  //   }
-
-  // }, [potData])
-
-  // useEffect(() => {
-  //   if (error) {
-  //     toast.error("Error creating pot")
-  //   }
-  // }, [error]);
-
-  // if (isLoading) {
-  //   return <div>Loading My Pots...</div>
-  // }
+  if (isLoading) {
+    return <div>Loading Available Pots...</div>;
+  }
 
   return (
     <div className="px-4 md:px-20 py-10">
@@ -78,11 +61,12 @@ export default function MyPots() {
 
       <div className="space-y-6 mx-auto">
         {pots.map((pot) => (
-          <PotCard
+          <MyPot
             key={pot.id}
             id={pot.id}
             amount={pot.amount}
             apy={pot.apy}
+            usdeDeposits={pot.usdeDeposits}
             maturityPeriod={pot.maturityPeriod}
             participants={pot.participants}
             maxParticipants={pot.maxParticipants}
