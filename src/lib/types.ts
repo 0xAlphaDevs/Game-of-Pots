@@ -2,7 +2,7 @@ export interface PotCardProps {
   id: string;
   amount: number;
   apy: number;
-  maturityPeriod: string;
+  maturityPeriod: number;
   participants: number;
   maxParticipants: number;
   status: string;
