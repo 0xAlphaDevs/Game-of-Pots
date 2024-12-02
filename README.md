@@ -13,9 +13,11 @@ A no loss lottery game with savings pool built on Ethena's sUSDe rewards APY
 1. [All Links](#links)
 2. [Deployed Contracts](#deployed-contracts)
 3. [Technologies](#technologies)
-4. [App Demo](#app-demo-screenshots)
-5. [Instructions to setup and run locally ](#instructions-to-setup)
-6. [Team](#team)
+4. [High Level Architecture](#high-level-architecture)
+5. [App Demo](#app-demo-screenshots)
+6. [Future Vision](#future-vision)
+7. [Instructions to setup and run locally ](#instructions-to-setup)
+8. [Team](#team)
 
 ## Links
 
@@ -32,6 +34,10 @@ A no loss lottery game with savings pool built on Ethena's sUSDe rewards APY
 - sUSDe Rewards
 - Ble Testnet
 
+## High Level Architecture
+
+![image](/public/architecture.png)
+
 ## App Demo Screenshots
 
 **_Landing Page_**
@@ -39,6 +45,20 @@ A no loss lottery game with savings pool built on Ethena's sUSDe rewards APY
 
 **_Dashboard_**
 ![image](/public/dashboard.png)
+
+**_Available Pots_**
+![image](/public/available-pots.png)
+
+**_Create New Pot_**
+![image](/public/create-new-pot.png)
+
+**_My Pots_**
+![image](/public/my-pots.png)
+
+## Future Vision
+
+- Integrate staking mechanism natively for sUSDe rewards on the Ethena mainnet to avoid bridge and txn fees for users.
+- Launch first version of GOP after contract audits on mainnet.
 
 ## Instructions to Setup
 
