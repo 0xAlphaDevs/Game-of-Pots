@@ -1,46 +1,54 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PotCard } from "@/components/PotCard";
 import { CreatePotModal } from "@/components/CreatePotModal";
-// import { useWriteContract, useReadContract } from "wagmi"
-// import { GOP_CONTRACT_ADDRESS } from "@/lib/contracts"
-// import { GOP_CONTRACT_ABI } from "@/lib/abi"
-import { POTS } from "@/lib/pots";
-import { PotCardProps } from "@/lib/types";
+import { Pot, PotCardProps } from "@/lib/types";
+import { GOP_CONTRACT_ADDRESS } from "@/lib/contracts";
+import { useReadContract } from "wagmi";
+import { GOP_CONTRACT_ABI } from "@/lib/abi";
+import { formatEther } from "viem";
 
 export default function AvailablePots() {
-  const [pots, setPots] = useState<PotCardProps[]>(POTS);
+  const [pots, setPots] = useState<PotCardProps[]>([]);
   const handleSetPots = () => {
     setPots(pots);
   };
-  // const { writeContract } = useWriteContract();
 
-  // const handleDepositToPot = (potId: string) => {
-  //   writeContract({
-  //     address: GOP_CONTRACT_ADDRESS as `0x${string}`,
-  //     abi: GOP_CONTRACT_ABI,
-  //     functionName: "depositToPot",
-  //     args: [potId, amount],
-  //   });
-  // }
+  const { data: potData, isLoading } = useReadContract({
+    address: GOP_CONTRACT_ADDRESS as `0x${string}`,
+    abi: GOP_CONTRACT_ABI,
+    functionName: "activePots",
+  });
 
-  // const { data: potData, isLoading } = useReadContract({
-  //   address: GOP_CONTRACT_ADDRESS as `0x${string}`,
-  //   abi: GOP_CONTRACT_ABI,
-  //   functionName: "activePots",
-  // });
+  useEffect(() => {
+    console.log("POT DATA", potData);
+    // setPots(potData);
+    const data: [] = potData as [];
 
-  // useEffect(() => {
-  //   if (potData) {
-  //     console.log("POT DATA", potData);
-  //     setPots(potData);
-  //   }
-  // }, [potData])
+    if (data)
+      setPots(
+        data.map((pot: Pot) => ({
+          id: pot.potId.toString(),
+          amount: Number(formatEther(pot.POT_SIZE_IN_USDE)),
+          apy: 29,
+          usdeDeposits: Number(formatEther(pot.totalUSDeDeposits)),
+          maturityPeriod: Number(pot.maturityPeriodInDays),
+          participants: pot.participants.length,
+          maxParticipants: Number(pot.TOTAL_SHARES),
+          status:
+            pot.status == 0
+              ? "active"
+              : pot.status == 1
+              ? "earning"
+              : "drawnWinner",
+        }))
+      );
+  }, [potData]);
 
-  // if (isLoading) {
-  //   return <div>Loading Available Pots...</div>
-  // }
+  if (isLoading) {
+    return <div>Loading Available Pots...</div>;
+  }
 
   // useEffect(() => {
   //   if (error) {
@@ -71,6 +79,7 @@ export default function AvailablePots() {
             id={pot.id}
             amount={pot.amount}
             apy={pot.apy}
+            usdeDeposits={pot.usdeDeposits}
             maturityPeriod={pot.maturityPeriod}
             participants={pot.participants}
             maxParticipants={pot.maxParticipants}
