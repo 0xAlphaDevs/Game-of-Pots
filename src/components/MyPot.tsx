@@ -169,9 +169,8 @@ export function MyPot({
         {status !== "drawnWinner" && (
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
-              className={`h-2 rounded-full transition-all ${
-                status === "earning" ? "bg-emerald-500" : "bg-emerald-500"
-              }`}
+              className={`h-2 rounded-full transition-all ${status === "earning" ? "bg-emerald-500" : "bg-emerald-500"
+                }`}
               style={{ width: `${(participants / maxParticipants) * 100}%` }}
               role="progressbar"
               aria-valuenow={(participants / maxParticipants) * 100}
@@ -184,22 +183,20 @@ export function MyPot({
       <CardFooter>
         {status !== "active" && (
           <Button
-            className={`w-full text-white font-semibold ${
-              status === "active"
-                ? "bg-emerald-500 hover:bg-emerald-600"
-                : status === "earning"
+            className={`w-full text-white font-semibold ${status === "active"
+              ? "bg-emerald-500 hover:bg-emerald-600"
+              : status === "earning"
                 ? "bg-emerald-900 hover:bg-emerald-900"
                 : "bg-blue-500 hover:bg-blue-600"
-            }`}
-            disabled={status === "earning"}
+              }`}
+            disabled={withdrawPending || status === "earning"}
             onClick={() => {
               if (status === "drawnWinner") {
                 handleWithdrawFromPot(id);
               }
             }}
           >
-            {status === "drawnWinner" && "Withdraw"}
-            {status === "earning" && "Your Pot is earning USDe Rewards"}
+            {withdrawPending ? "Trxn in progress" : status === "drawnWinner" ? "Withdraw" : "Your Pot is earning USDe Rewards"}
           </Button>
         )}
       </CardFooter>

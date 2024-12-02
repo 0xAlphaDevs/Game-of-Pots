@@ -245,9 +245,8 @@ export function PotCard({
         {status !== "drawnWinner" && (
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
-              className={`h-2 rounded-full transition-all ${
-                status === "earning" ? "bg-emerald-500" : "bg-emerald-500"
-              }`}
+              className={`h-2 rounded-full transition-all ${status === "earning" ? "bg-emerald-500" : "bg-emerald-500"
+                }`}
               style={{ width: `${(participants / maxParticipants) * 100}%` }}
               role="progressbar"
               aria-valuenow={(participants / maxParticipants) * 100}
@@ -259,14 +258,18 @@ export function PotCard({
       </CardContent>
       <CardFooter>
         <Button
-          className={`w-full text-white font-semibold ${
-            status === "active"
+          className={`w-full text-white font-semibold ${status === "active"
               ? "bg-emerald-500 hover:bg-emerald-600"
               : status === "earning"
-              ? "bg-emerald-900 hover:bg-emerald-900"
-              : "bg-blue-500 hover:bg-blue-600"
-          }`}
-          disabled={status === "earning"}
+                ? "bg-emerald-900 hover:bg-emerald-900"
+                : "bg-blue-500 hover:bg-blue-600"
+            }`}
+          disabled={
+            depositPending ||
+            withdrawPending ||
+            approvePending ||
+            status === "earning"
+          }
           onClick={() => {
             if (status === "active") {
               if (usdeAllowance < amount / maxParticipants) {
@@ -277,12 +280,18 @@ export function PotCard({
             }
           }}
         >
-          {status === "active" &&
-            (usdeAllowance > amount / maxParticipants
-              ? "Join Pot"
-              : "Approve USDe Spend")}
-          {status === "earning" && "Pot Staked and Earning Rewards"}
-          {status === "drawnWinner" && "Withdraw"}
+          {depositPending && "Depositing to Pot..."}
+          {withdrawPending && "Withdrawing from Pot..."}
+          {approvePending && "Approving USDe Spend..."}
+          {!depositPending && !withdrawPending && !approvePending && (
+            <>
+              {status === "active" && usdeAllowance > amount / maxParticipants
+                ? "Join Pot"
+                : "Approve USDe Spend"}
+              {status === "earning" && "Pot Staked and Earning Rewards"}
+              {status === "drawnWinner" && "Withdraw"}
+            </>
+          )}
         </Button>
       </CardFooter>
     </Card>
