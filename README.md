@@ -23,7 +23,7 @@ A no loss lottery game with savings pool built on Ethena's sUSDe rewards APY
 
 - [Deployed URL](https://game-of-pots.vercel.app/)
 - [Presentation](https://www.canva.com/design/DAGYDK1JPWs/q1bBo9JYOS_O7STz3a3Vog/view)
-- [Demo Video]()
+- [Demo Video](https://youtu.be/ef-Xz1TmAcc)
 
 ## Deployed Contracts
 
