@@ -18,7 +18,7 @@ import { GOP_CONTRACT_ABI } from "@/lib/abi";
 import { useRouter } from "next/navigation";
 import { differenceInDays } from "date-fns";
 import Spinner from "./Spinner";
-import { formatUnits, parseUnits } from "viem";
+import { parseUnits } from "viem";
 
 export function CreatePotModal() {
   const router = useRouter();
